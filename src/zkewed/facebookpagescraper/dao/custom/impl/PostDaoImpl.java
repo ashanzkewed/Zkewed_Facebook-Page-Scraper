@@ -18,7 +18,7 @@ public class PostDaoImpl implements PostDao {
     public Serializable addPost(MainPost post) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        
+        System.out.println("*****************  :::  "+post.toString());
         Serializable res = session.save(post);
         session.getTransaction().commit();
       

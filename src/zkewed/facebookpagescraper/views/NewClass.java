@@ -15,7 +15,7 @@ import org.apache.log4j.PropertyConfigurator;
 public class NewClass {
      final static Logger LOGGER = Logger.getLogger("NewClass");
      public static void main(String[] args) {
-         PropertyConfigurator.configure("C:\\Users\\DELL\\Desktop\\BCS\\Zkewed_Facebook Page Scraper\\src\\log4j.properties");
+         PropertyConfigurator.configure("./src/log4j.properties");
         LOGGER.debug("debuggggggggggggg");
     }
 }

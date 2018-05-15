@@ -20,7 +20,7 @@ import javax.persistence.OneToMany;
  * @author DELL
  */
 @Entity
-public class MainPost extends SuperModel{
+public class MainPost extends SuperModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,6 +32,9 @@ public class MainPost extends SuperModel{
     private String dressCode;
     private String dressCodeDescription;
     private String timeStamp;
+
+    @Column(length = 2000)
+    private String message;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "mainPost")
     private Set<Comments> comments = new HashSet<>();
@@ -92,6 +95,11 @@ public class MainPost extends SuperModel{
         this.shareCount = shareCount;
     }
 
+    @Override
+    public String toString() {
+        return "MainPost{" + "id=" + id + ", fbPostId=" + fbPostId + ", likeCount=" + likeCount + ", shareCount=" + shareCount + ", dressCode=" + dressCode + ", dressCodeDescription=" + dressCodeDescription + ", timeStamp=" + timeStamp + ", message=" + message + ", comments=" + comments + '}';
+    }
+
     /**
      * @return the dressCode
      */
@@ -148,6 +156,18 @@ public class MainPost extends SuperModel{
         this.comments = comments;
     }
 
-   
+    /**
+     * @return the message
+     */
+    public String getMessage() {
+        return message;
+    }
+
+    /**
+     * @param message the message to set
+     */
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
 }

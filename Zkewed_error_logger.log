@@ -1,0 +1,2 @@
+
+2018-05-15 16:19:49 ERROR [zkewed.facebookpagescraper.views.Main:135] - mainUI runbtn action  : com.restfb.exception.FacebookNetworkException: A network error occurred while trying to communicate with Facebook: Facebook request failed (HTTP status code null)

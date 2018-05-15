@@ -5,8 +5,8 @@
  */
 package zkewed.facebookpagescraper.service;
 
+import com.restfb.exception.FacebookNetworkException;
 import java.util.ArrayList;
-import java.util.Set;
 import zkewed.facebookpagescraper.model.Comments;
 
 /**
@@ -14,5 +14,6 @@ import zkewed.facebookpagescraper.model.Comments;
  * @author DELL
  */
 public interface CommentService {
-    public ArrayList<Comments> getComments(String postId);
+
+    public ArrayList<Comments> getComments(String postId)throws FacebookNetworkException;
 }

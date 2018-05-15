@@ -5,6 +5,8 @@
  */
 package zkewed.facebookpagescraper.controller;
 
+import com.restfb.exception.FacebookCheckedException;
+import com.restfb.exception.FacebookNetworkException;
 import zkewed.facebookpagescraper.service.PostService;
 import zkewed.facebookpagescraper.service.impl.PostServiceImpl;
 
@@ -13,16 +15,16 @@ import zkewed.facebookpagescraper.service.impl.PostServiceImpl;
  * @author DELL
  */
 public class PostController {
-    
+
     private static PostService postService;
 
     public PostController() {
-     
-        postService=new PostServiceImpl();
+
+        postService = new PostServiceImpl();
     }
-    public static void fetchDetails(){
-        postService.fetchDetails();
+
+    public boolean fetchDetails() throws FacebookNetworkException{
+        return postService.fetchDetails();
     }
-    
-    
+
 }

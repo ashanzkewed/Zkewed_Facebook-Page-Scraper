@@ -4,7 +4,7 @@
     <session-factory>
          
         <property name = "hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
-        <property name = "hibernate.connection.url"> jdbc:sqlserver://localhost:1433;databaseName=mm_test;integratedSecurity=true</property>
+        <property name = "hibernate.connection.url"> jdbc:sqlserver://localhost:1433;databaseName=fb;integratedSecurity=true</property>
         <property name = "hibernate.connection.username">ASHAN\DELL</property>
         <property name = "hibernate.connection.password"></property>
         <property name = "hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>

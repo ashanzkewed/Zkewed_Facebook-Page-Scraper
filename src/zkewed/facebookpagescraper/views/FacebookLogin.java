@@ -78,34 +78,34 @@ public class FacebookLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActionPerformed
-        
-//            String appId="2057181911204822";
-            String appId="377150156135097";
-//            String domain="https://www.zkewed.com/";
-            String domain="https://localhost/MyApp";
-            String authUrl= "https://graph.facebook.com/oauth/authorize?client_id="+appId+"&redirect_uri="+domain+"&scope=manage_pages";
+
+        String appId = "2057181911204822";
+//            String appId="377150156135097";
+        String domain = "https://www.zkewed.com/";
+//            String domain="https://localhost/MyApp";
+        String authUrl = "https://graph.facebook.com/oauth/authorize?client_id=" + appId + "&redirect_uri=" + domain + "&scope=manage_pages";
 //            String authUrl= "https://graph.facebook.com/oauth/authorize?client_id="+appId+"&redirect_uri="+"https://www.facebook.com/connect/login_success.html"+"&scope=manage_pages";
-            
-            // Optional, if not specified, WebDriver will search your path for chromedriver.
-            System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
-            
-            WebDriver driver = new ChromeDriver();
-            driver.get(authUrl);
-           String accessToken;
-            while(true){
-                if (!driver.getCurrentUrl().contains("facebook.com")) {
-                    String url=driver.getCurrentUrl();
-                    accessToken=url.replaceAll(".*#access_token=(.+)&.*", "$1");
-                    driver.quit();
-                      System.out.println("ttt : "+accessToken);
+
+        // Optional, if not specified, WebDriver will search your path for chromedriver.
+        System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+
+        WebDriver driver = new ChromeDriver();
+        driver.get(authUrl);
+        String accessToken;
+        while (true) {
+            if (!driver.getCurrentUrl().contains("facebook.com")) {
+                String url = driver.getCurrentUrl();
+                accessToken = url.replaceAll(".*#access_token=(.+)&.*", "$1");
+                driver.quit();
+                System.out.println("ttt : " + accessToken);
 //                    FacebookClient fbClient=new DefaultFacebookClient(accessToken,Version.LATEST);
 //                    System.out.println("ttt : "+accessToken);
 //                    User user=fbClient.fetchObject("me", User.class,Parameter.with("fields", "picture,first_name,last_name,gender,name"));
 //                    System.out.println("accessToken ::::::  "+accessToken);
 //                    message.setText(user.getLastName());
-                            
-                }
+
             }
+        }
     }//GEN-LAST:event_btnActionPerformed
 
     /**
