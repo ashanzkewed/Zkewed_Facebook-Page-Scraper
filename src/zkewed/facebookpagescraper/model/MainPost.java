@@ -26,11 +26,13 @@ public class MainPost extends SuperModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "MainPost_Id")
     private Integer id;
+    private String pageName;
     private String fbPostId;
     private Integer likeCount;
     private Integer shareCount;
-    private String dressCode;
-    private String dressCodeDescription;
+    private String imageURL;
+    private String postURL;
+    private String permalink_url;
     private String timeStamp;
 
     @Column(length = 2000)
@@ -95,39 +97,6 @@ public class MainPost extends SuperModel {
         this.shareCount = shareCount;
     }
 
-    @Override
-    public String toString() {
-        return "MainPost{" + "id=" + id + ", fbPostId=" + fbPostId + ", likeCount=" + likeCount + ", shareCount=" + shareCount + ", dressCode=" + dressCode + ", dressCodeDescription=" + dressCodeDescription + ", timeStamp=" + timeStamp + ", message=" + message + ", comments=" + comments + '}';
-    }
-
-    /**
-     * @return the dressCode
-     */
-    public String getDressCode() {
-        return dressCode;
-    }
-
-    /**
-     * @param dressCode the dressCode to set
-     */
-    public void setDressCode(String dressCode) {
-        this.dressCode = dressCode;
-    }
-
-    /**
-     * @return the dressCodeDescription
-     */
-    public String getDressCodeDescription() {
-        return dressCodeDescription;
-    }
-
-    /**
-     * @param dressCodeDescription the dressCodeDescription to set
-     */
-    public void setDressCodeDescription(String dressCodeDescription) {
-        this.dressCodeDescription = dressCodeDescription;
-    }
-
     /**
      * @return the timeStamp
      */
@@ -168,6 +137,62 @@ public class MainPost extends SuperModel {
      */
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    /**
+     * @return the pageName
+     */
+    public String getPageName() {
+        return pageName;
+    }
+
+    /**
+     * @param pageName the pageName to set
+     */
+    public void setPageName(String pageName) {
+        this.pageName = pageName;
+    }
+
+    /**
+     * @return the imageURL
+     */
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    /**
+     * @param imageURL the imageURL to set
+     */
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    /**
+     * @return the postURL
+     */
+    public String getPostURL() {
+        return postURL;
+    }
+
+    /**
+     * @param postURL the postURL to set
+     */
+    public void setPostURL(String postURL) {
+        this.postURL = postURL;
+    }
+
+    /**
+     * @return the permalink_url
+     */
+    public String getPermalink_url() {
+        return permalink_url;
+    }
+
+    /**
+     * @param permalink_url the permalink_url to set
+     */
+    public void setPermalink_url(String permalink_url) {
+        this.permalink_url = permalink_url;
     }
 
 }

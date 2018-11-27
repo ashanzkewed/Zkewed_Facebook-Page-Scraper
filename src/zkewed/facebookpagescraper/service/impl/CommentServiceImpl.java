@@ -17,7 +17,6 @@ import org.apache.log4j.Logger;
 import zkewed.facebookpagescraper.fbclient.FbClientConnection;
 import zkewed.facebookpagescraper.model.Comments;
 import zkewed.facebookpagescraper.service.CommentService;
-import zkewed.facebookpagescraper.views.Main;
 
 public class CommentServiceImpl implements CommentService {
 
@@ -29,12 +28,12 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public ArrayList<Comments> getComments(String postId) throws FacebookNetworkException {
+    public ArrayList<Comments> getComments(String postId,String pageId,String pageName) throws FacebookNetworkException {
         ArrayList<Comments> commentList = null;
 
-        String accessToken = Main.accessToken;
+        String accessToken = FbClientConnection.accessToken;
 
-        Page page = fbClient.fetchObject(Main.pageId, Page.class);
+        Page page = fbClient.fetchObject(pageId, Page.class);
         try {
             Connection<Comment> allComments = fbClient.fetchConnection(postId + "/comments", Comment.class);
 
@@ -47,6 +46,7 @@ public class CommentServiceImpl implements CommentService {
                             if (comment.getMessage().length() <= 250) {
                                 Comments comments = new Comments();
                                 comments.setComment(comment.getMessage());
+                                comments.setPageName(pageName);
                                 commentList.add(comments);
 //                            System.out.println(comment.getMessage());
                             }

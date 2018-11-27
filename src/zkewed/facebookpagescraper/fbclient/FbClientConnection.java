@@ -8,7 +8,6 @@ package zkewed.facebookpagescraper.fbclient;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.restfb.Version;
-import zkewed.facebookpagescraper.views.Main;
 
 /**
  *
@@ -18,10 +17,11 @@ public class FbClientConnection {
 
     private static FbClientConnection fbClientConnection;
     private FacebookClient facebookClient;
+    public static String accessToken="";  
 
     private FbClientConnection() {
-        facebookClient = new DefaultFacebookClient(Main.accessToken, Version.LATEST);
-    }
+        facebookClient = new DefaultFacebookClient(accessToken, Version.LATEST);
+    }   
 
     public static FbClientConnection getFbClientConnection() {
         if (fbClientConnection == null) {

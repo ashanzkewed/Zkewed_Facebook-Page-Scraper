@@ -15,5 +15,5 @@ import zkewed.facebookpagescraper.model.Comments;
  */
 public interface CommentService {
 
-    public ArrayList<Comments> getComments(String postId)throws FacebookNetworkException;
+    public ArrayList<Comments> getComments(String postId,String pageId,String pageName)throws FacebookNetworkException;
 }

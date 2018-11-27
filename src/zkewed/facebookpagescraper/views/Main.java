@@ -5,11 +5,17 @@
  */
 package zkewed.facebookpagescraper.views;
 
-import com.restfb.exception.FacebookNetworkException;
+import java.awt.Color;
+import java.awt.Frame;
+import java.util.Calendar;
+import java.util.List;
+import java.util.logging.Level;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import zkewed.facebookpagescraper.controller.PostController;
+import zkewed.facebookpagescraper.model.FbPage;
 
 /**
  *
@@ -17,16 +23,36 @@ import zkewed.facebookpagescraper.controller.PostController;
  */
 public class Main extends javax.swing.JFrame {
 
-    public static String pageId;
-    public static String accessToken;
+    private List<FbPage> allFbPages;
+
+    private int xMouse;
+    private int yMouse;
+    private String pageName;
     final static Logger LOGGER = Logger.getLogger("Main");
+    DefaultTableModel dtm;
+    private PostController post;
+    private int year;
+    private String since;
 
     /**
      * Creates new form Main
      */
     public Main() {
+
         initComponents();
+        setLocationRelativeTo(null);
         PropertyConfigurator.configure("./src/log4j.properties");
+        post = new PostController();
+        dtm = ((DefaultTableModel) fbtable.getModel());
+        dtm.setRowCount(0);
+        loadTableData();
+        yearCombo.setSelectedIndex(5);
+        urlText.requestFocus();
+//        year = Calendar.getInstance().get(Calendar.YEAR) - (Integer.parseInt(yearCombo.getSelectedItem().toString()));
+//        startDateText.setText("Since : " + Integer.toString(year));
+        jPanel4.setVisible(false);
+        allRadio.setSelected(true);
+
     }
 
     /**
@@ -38,105 +64,647 @@ public class Main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        datePickerFormatter1 = new org.jdesktop.swingx.calendar.DatePickerFormatter();
+        jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        closeBtn = new javax.swing.JButton();
+        text = new javax.swing.JLabel();
+        deleteBtn = new javax.swing.JLabel();
+        minimize = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        close = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        urlText = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        runBtn = new javax.swing.JButton();
-        pageIdText = new javax.swing.JTextField();
-        tokenText = new javax.swing.JTextField();
+        connectButton1 = new javax.swing.JLabel();
+        startDateText = new javax.swing.JLabel();
+        addBtn = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        fbtable = new javax.swing.JTable();
+        oneRadio = new javax.swing.JRadioButton();
+        yearCombo = new javax.swing.JComboBox<>();
+        allRadio = new javax.swing.JRadioButton();
+        jPanel4 = new javax.swing.JPanel();
+        onePageText = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(620, 14));
+        setMinimumSize(new java.awt.Dimension(620, 14));
+        setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(620, 520));
+        getContentPane().setLayout(null);
 
-        jLabel1.setText("Facebook App");
-
-        closeBtn.setText("close");
-        closeBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                closeBtnActionPerformed(evt);
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 255), 2, true));
+        jPanel1.setPreferredSize(new java.awt.Dimension(450, 614));
+        jPanel1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jPanel1MouseDragged(evt);
+            }
+        });
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel1MousePressed(evt);
             }
         });
 
-        jLabel3.setText("Page Id          : ");
+        jPanel2.setBackground(new java.awt.Color(51, 153, 255));
+        jPanel2.setPreferredSize(new java.awt.Dimension(5, 610));
 
-        jLabel4.setText("Access Token : ");
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 5, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 610, Short.MAX_VALUE)
+        );
 
-        runBtn.setText("Run");
-        runBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                runBtnActionPerformed(evt);
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/zkewed/facebookpagescraper/photos/facebook (1).png"))); // NOI18N
+
+        text.setBackground(new java.awt.Color(51, 0, 255));
+        text.setFont(new java.awt.Font("Tw Cen MT", 0, 36)); // NOI18N
+        text.setForeground(new java.awt.Color(0, 102, 255));
+        text.setText("Facebook Scraper");
+
+        deleteBtn.setBackground(new java.awt.Color(0, 153, 204));
+        deleteBtn.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        deleteBtn.setForeground(new java.awt.Color(255, 255, 255));
+        deleteBtn.setText("            Delete");
+        deleteBtn.setOpaque(true);
+        deleteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deleteBtnMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                deleteBtnMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                deleteBtnMouseExited(evt);
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+        minimize.setBackground(new java.awt.Color(255, 255, 255));
+        minimize.setPreferredSize(new java.awt.Dimension(40, 40));
+        minimize.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                minimizeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                minimizeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                minimizeMouseExited(evt);
+            }
+        });
+        minimize.setLayout(null);
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/zkewed/facebookpagescraper/photos/minimizeIcon.png"))); // NOI18N
+        minimize.add(jLabel7);
+        jLabel7.setBounds(10, 11, 20, 20);
+
+        close.setBackground(new java.awt.Color(255, 255, 255));
+        close.setPreferredSize(new java.awt.Dimension(40, 40));
+        close.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                closeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                closeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                closeMouseExited(evt);
+            }
+        });
+        close.setLayout(null);
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/zkewed/facebookpagescraper/photos/close.png"))); // NOI18N
+        close.add(jLabel5);
+        jLabel5.setBounds(10, 11, 20, 20);
+
+        urlText.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        urlText.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 153, 255)));
+        urlText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                urlTextActionPerformed(evt);
+            }
+        });
+        urlText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                urlTextKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                urlTextKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                urlTextKeyTyped(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(51, 153, 255));
+        jLabel3.setText("Enter Facebook URL");
+
+        connectButton1.setBackground(new java.awt.Color(102, 0, 153));
+        connectButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        connectButton1.setForeground(new java.awt.Color(255, 255, 255));
+        connectButton1.setText("               Run");
+        connectButton1.setMaximumSize(new java.awt.Dimension(150, 38));
+        connectButton1.setMinimumSize(new java.awt.Dimension(150, 38));
+        connectButton1.setOpaque(true);
+        connectButton1.setPreferredSize(new java.awt.Dimension(150, 38));
+        connectButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                connectButton1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                connectButton1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                connectButton1MouseExited(evt);
+            }
+        });
+
+        startDateText.setText("   ");
+
+        addBtn.setBackground(new java.awt.Color(0, 153, 204));
+        addBtn.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        addBtn.setForeground(new java.awt.Color(255, 255, 255));
+        addBtn.setText("            Add");
+        addBtn.setOpaque(true);
+        addBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                addBtnMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                addBtnMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                addBtnMouseExited(evt);
+            }
+        });
+
+        fbtable.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        fbtable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Fb Page Name", "Page URL"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        fbtable.setMinimumSize(new java.awt.Dimension(30, 92));
+        fbtable.setName(""); // NOI18N
+        fbtable.setRowHeight(23);
+        fbtable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        fbtable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fbtableMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(fbtable);
+        fbtable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (fbtable.getColumnModel().getColumnCount() > 0) {
+            fbtable.getColumnModel().getColumn(0).setResizable(false);
+            fbtable.getColumnModel().getColumn(1).setResizable(false);
+        }
+
+        oneRadio.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(oneRadio);
+        oneRadio.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        oneRadio.setText("One Page");
+        oneRadio.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                oneRadioMouseClicked(evt);
+            }
+        });
+
+        yearCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+        yearCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                yearComboActionPerformed(evt);
+            }
+        });
+
+        allRadio.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(allRadio);
+        allRadio.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        allRadio.setText("All");
+        allRadio.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                allRadioMouseClicked(evt);
+            }
+        });
+        allRadio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                allRadioKeyPressed(evt);
+            }
+        });
+
+        onePageText.setEditable(false);
+        onePageText.setBackground(new java.awt.Color(255, 255, 255));
+        onePageText.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        onePageText.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 153, 255)));
+        onePageText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onePageTextActionPerformed(evt);
+            }
+        });
+        onePageText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                onePageTextKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                onePageTextKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                onePageTextKeyTyped(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(onePageText, javax.swing.GroupLayout.Alignment.TRAILING)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(onePageText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+        );
+
+        onePageText.getAccessibleContext().setAccessibleName("");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(yearCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(74, 74, 74)
+                                        .addComponent(allRadio)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(oneRadio))
+                                    .addComponent(urlText, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(startDateText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(26, 26, 26)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(6, 6, 6))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(16, 16, 16)
+                                .addComponent(text, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(27, 27, 27)
+                                .addComponent(minimize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(close, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 289, Short.MAX_VALUE)
-                        .addComponent(closeBtn))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(runBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(43, 43, 43)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(pageIdText)
-                                    .addComponent(tokenText, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(269, 269, 269)
+                                .addComponent(connectButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 591, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(7, 7, 7)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(closeBtn)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(104, 104, 104)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pageIdText, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(24, 24, 24)
+                                .addComponent(text))
+                            .addComponent(close, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(minimize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(urlText, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(startDateText, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(yearCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(oneRadio)
+                        .addComponent(allRadio))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tokenText, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE))
-                .addGap(35, 35, 35)
-                .addComponent(runBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(connectButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
+
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(0, 0, 620, 520);
+
+        getAccessibleContext().setAccessibleDescription("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void closeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeBtnActionPerformed
-        this.dispose();        // TODO add your handling code here:
-    }//GEN-LAST:event_closeBtnActionPerformed
+    private void deleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteBtnMouseClicked
 
-    private void runBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runBtnActionPerformed
+        int selectedRow = fbtable.getSelectedRow();
+        if (selectedRow != -1) {
+//             if (!urlText.getText().trim().isEmpty()) {
+            FbPage fb = allFbPages.get(selectedRow);
+            if (fb.getPageName().equalsIgnoreCase(pageName) && pageName.equalsIgnoreCase(urlText.getText().trim())) {
 
-        this.pageId = pageIdText.getText();
-        this.accessToken = tokenText.getText();
-        try {
-            boolean bool = new PostController().fetchDetails();
-            if (bool) {
-                JOptionPane.showMessageDialog(this, "DONE");
+                int dialogResult = JOptionPane.showConfirmDialog(null, "Do you want to Delete this??", "Warning", 2);
+                if (dialogResult == JOptionPane.YES_OPTION) {
+                    try {
+
+                        boolean res = post.deleteFacebookPage(fb);
+                        if (res) {
+                            selectedRow = 0;
+                            urlText.setText(null);
+                            loadTableData();
+                            JOptionPane.showMessageDialog(null, "Delete Successfully !");
+
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Delete Fail !");
+                        }
+                    } catch (Exception ex) {
+                        LOGGER.error("deleteBtnMouseClicked: Main.java :   " + ex);
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Exsist !");
             }
-        } catch (FacebookNetworkException ex) {
-            ex.printStackTrace();
-            LOGGER.error("mainUI runbtn action  : " + ex);
-            
+        } else {
+            JOptionPane.showMessageDialog(null, "Select Row!!");
         }
 
-    }//GEN-LAST:event_runBtnActionPerformed
+
+    }//GEN-LAST:event_deleteBtnMouseClicked
+
+    private void deleteBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteBtnMouseEntered
+
+        deleteBtn.setBackground(Color.red);
+    }//GEN-LAST:event_deleteBtnMouseEntered
+
+    private void deleteBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteBtnMouseExited
+        deleteBtn.setBackground(new Color(0, 153, 204));        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteBtnMouseExited
+
+    private void minimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseClicked
+        this.setState(Frame.ICONIFIED);        // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseClicked
+
+    private void minimizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseEntered
+        minimize.setBackground(new Color(0, 153, 204));        // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseEntered
+
+    private void minimizeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseExited
+        minimize.setBackground(Color.white);      // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseExited
+
+    private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
+        this.dispose();       // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseClicked
+
+    private void closeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseEntered
+        close.setBackground(new Color(0, 153, 204));       // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseEntered
+
+    private void closeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseExited
+        close.setBackground(Color.white);      // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseExited
+
+    private void urlTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_urlTextActionPerformed
+
+
+    }//GEN-LAST:event_urlTextActionPerformed
+
+    private void urlTextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_urlTextKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_urlTextKeyPressed
+
+    private void urlTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_urlTextKeyReleased
+
+    }//GEN-LAST:event_urlTextKeyReleased
+
+    private void urlTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_urlTextKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_urlTextKeyTyped
+
+    private void connectButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_connectButton1MouseClicked
+        String years = yearCombo.getSelectedItem().toString();
+        String process = "";
+        if (oneRadio.isSelected()) {
+            if (!onePageText.getText().trim().isEmpty()) {
+                try {
+                    FbPage fb = allFbPages.get(fbtable.getSelectedRow());
+//                    process = fb.getPageName() + "  Running....";
+//                    processText.setText(process);
+                    boolean res1 = post.deleteFacebookPageData(fb);
+                    if (res1) {
+                        boolean res = post.fetchDetails(fb.getPageId(), since, fb.getPageName());
+                        if (res) {
+                            JOptionPane.showMessageDialog(null, "Data Collected Successfully !");
+                        }
+                    }
+                } catch (Exception ex) {
+                    LOGGER.error("ConnectButton1MouseCliked:OneRadio Main.java  : " + ex);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Select Row !");
+            }
+
+        } else if (allRadio.isSelected()) {
+            int count = 0;
+            for (int i = 0; i < allFbPages.size(); i++) {
+                try {
+//                    process = i + 1 + "/" + allFbPages.size() + "  " + allFbPages.get(i).getPageName();
+//                    processText.setText(process);
+                    boolean res1 = post.deleteFacebookPageData(allFbPages.get(i));
+                    if (res1) {
+                        boolean res = post.fetchDetails(allFbPages.get(i).getPageId(), since, allFbPages.get(i).getPageName());
+
+                        if (res) {
+                            ++count;
+                        }
+                    }
+
+                } catch (Exception ex) {
+                    LOGGER.error("ConnectButton1MouseCliked:allRadio Main.java  : " + ex);
+                }
+
+            }
+            if (count == allFbPages.size()) {
+                JOptionPane.showMessageDialog(null, "Data Collected Successfully !");
+            }
+        }
+
+    }//GEN-LAST:event_connectButton1MouseClicked
+
+    private void connectButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_connectButton1MouseEntered
+        connectButton1.setBackground(new Color(153, 0, 255));
+    }//GEN-LAST:event_connectButton1MouseEntered
+
+    private void connectButton1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_connectButton1MouseExited
+        connectButton1.setBackground(new Color(102, 0, 153));
+    }//GEN-LAST:event_connectButton1MouseExited
+
+    private void addBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addBtnMouseClicked
+        String fbURL = urlText.getText().trim();
+        if (!fbURL.isEmpty()) {
+
+            String fbN = getfacebookName(fbURL);
+            if (!fbN.equalsIgnoreCase("oops")) {
+                boolean isTrue = false;
+                for (int j = 0; j < fbtable.getRowCount(); j++) {
+                    String row = fbtable.getValueAt(j, 1).toString();
+                    if (row.trim().equalsIgnoreCase(fbURL)) {
+                        isTrue = true;
+                        break;
+                    }
+                }
+
+                if (isTrue) {
+                    urlText.setText(null);
+                    JOptionPane.showMessageDialog(this, "Already Exist !!!");
+                } else {
+
+                    try {
+                        boolean res = post.addFacebookURL(fbURL, fbN);
+                        if (res != false) {
+                            loadTableData();
+                            JOptionPane.showMessageDialog(null, "Facebook URL Added Successfully");
+                            urlText.setText(null);
+
+                        } else {
+                            JOptionPane.showMessageDialog(rootPane, "Facebook URL Added Fail !", "Warning!!", 2);
+                            urlText.setText(null);
+                        }
+                    } catch (Exception ex) {
+                        LOGGER.error("addBtnMouseCliked : Main.java  : " + ex);
+                    }
+
+                }
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "This is not a Facebook URL", "Warning!!", 2);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Please Enter Facebook Page URL", "Warning!!", 2);
+        }
+    }//GEN-LAST:event_addBtnMouseClicked
+
+    private void addBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addBtnMouseEntered
+        addBtn.setBackground(new Color(0, 204, 204));        // TODO add your handling code here:
+    }//GEN-LAST:event_addBtnMouseEntered
+
+    private void addBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addBtnMouseExited
+        addBtn.setBackground(new Color(0, 153, 204));
+    }//GEN-LAST:event_addBtnMouseExited
+
+    private void jPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseDragged
+        int x = evt.getXOnScreen();
+        int y = evt.getYOnScreen();
+        this.setLocation(x - xMouse, y - yMouse);
+    }//GEN-LAST:event_jPanel1MouseDragged
+
+    private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
+        xMouse = evt.getX();
+        yMouse = evt.getY();        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jPanel1MousePressed
+
+    private void fbtableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fbtableMouseClicked
+        pageName = fbtable.getValueAt(fbtable.getSelectedRow(), 0).toString();
+        if (!oneRadio.isSelected()) {
+
+            urlText.setText(pageName);
+        } else {
+            urlText.setText(null);
+            onePageText.setText(pageName);
+        }
+    }//GEN-LAST:event_fbtableMouseClicked
+
+    private void oneRadioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_oneRadioMouseClicked
+        if (oneRadio.isSelected()) {
+            jPanel4.setVisible(true);
+            onePageText.setText(null);
+        }
+
+
+    }//GEN-LAST:event_oneRadioMouseClicked
+
+    private void onePageTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onePageTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_onePageTextActionPerformed
+
+    private void onePageTextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_onePageTextKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_onePageTextKeyPressed
+
+    private void onePageTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_onePageTextKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_onePageTextKeyReleased
+
+    private void onePageTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_onePageTextKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_onePageTextKeyTyped
+
+    private void yearComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yearComboActionPerformed
+        year = Calendar.getInstance().get(Calendar.YEAR) - (Integer.parseInt(yearCombo.getSelectedItem().toString()));
+        since = Integer.toString(year) + "/01/01";
+        startDateText.setText("Since : " + since);
+    }//GEN-LAST:event_yearComboActionPerformed
+
+    private void allRadioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_allRadioKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_allRadioKeyPressed
+
+    private void allRadioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_allRadioMouseClicked
+        if (allRadio.isSelected()) {
+            jPanel4.setVisible(false);
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_allRadioMouseClicked
 
     /**
      * @param args the command line arguments
@@ -149,19 +717,27 @@ public class Main extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("WINDOWS".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Main.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Main.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Main.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Main.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -174,12 +750,63 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton closeBtn;
+    private javax.swing.JLabel addBtn;
+    private javax.swing.JRadioButton allRadio;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JPanel close;
+    private javax.swing.JLabel connectButton1;
+    private org.jdesktop.swingx.calendar.DatePickerFormatter datePickerFormatter1;
+    private javax.swing.JLabel deleteBtn;
+    private javax.swing.JTable fbtable;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField pageIdText;
-    private javax.swing.JButton runBtn;
-    private javax.swing.JTextField tokenText;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
+    private javax.swing.JPanel minimize;
+    private javax.swing.JTextField onePageText;
+    private javax.swing.JRadioButton oneRadio;
+    private javax.swing.JLabel startDateText;
+    private javax.swing.JLabel text;
+    private javax.swing.JTextField urlText;
+    private javax.swing.JComboBox<String> yearCombo;
     // End of variables declaration//GEN-END:variables
+public void loadTableData() {
+        try {
+            allFbPages = null;
+            allFbPages = post.getAllFbPages();
+            if (allFbPages != null) {
+                dtm.setRowCount(0);
+
+                for (int i = 0; i < allFbPages.size(); i++) {
+                    FbPage fb = allFbPages.get(i);
+                    String[] row = {fb.getPageName(), fb.getUrl()};
+                    dtm.addRow(row);
+                }
+            }
+
+        } catch (Exception ex) {
+            LOGGER.error("LoadTableData Method: Main.java  : " + ex);
+        }
+
+    }
+
+    public String getfacebookName(String url) {
+        boolean isTrue = true;
+        String pageName = "";
+        try {
+            String[] split = url.split("https://www.facebook.com/");
+            pageName = split[1].substring(0, split[1].length() - 1);
+
+        } catch (Exception ex) {
+            isTrue = false;
+        }
+        return isTrue != false ? pageName : "oops";
+    }
+
 }

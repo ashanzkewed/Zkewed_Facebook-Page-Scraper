@@ -4,15 +4,17 @@
     <session-factory>
          
         <property name = "hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
-        <property name = "hibernate.connection.url"> jdbc:sqlserver://localhost:1433;databaseName=fb;integratedSecurity=true</property>
+        <property name = "hibernate.connection.url"> jdbc:sqlserver://localhost:1433;databaseName=facebook;integratedSecurity=true</property>
+
         <property name = "hibernate.connection.username">ASHAN\DELL</property>
         <property name = "hibernate.connection.password"></property>
         <property name = "hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
-        <property name = "hibernate.show_sql">true</property>
+        <property name = "hibernate.show_sql">false</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
   
         <mapping class="zkewed.facebookpagescraper.model.MainPost"/>
         <mapping class="zkewed.facebookpagescraper.model.Comments"/>
+        <mapping class="zkewed.facebookpagescraper.model.FbPage"/>
         <!--tcp/ip 1433-->
     </session-factory>
 </hibernate-configuration>

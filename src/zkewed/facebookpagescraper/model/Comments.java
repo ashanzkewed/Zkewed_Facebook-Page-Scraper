@@ -28,6 +28,8 @@ public class Comments  extends SuperModel{
     @ManyToOne
     @JoinColumn(name = "MainPost_Id",nullable = false)
     private MainPost mainPost;
+    
+    private String pagename;
 
     /**
      * @return the id
@@ -69,6 +71,20 @@ public class Comments  extends SuperModel{
      */
     public void setMainPost(MainPost mainPost) {
         this.mainPost = mainPost;
+    }
+
+    /**
+     * @return the pageName
+     */
+    public String getPageName() {
+        return pagename;
+    }
+
+    /**
+     * @param pageName the pageName to set
+     */
+    public void setPageName(String pageName) {
+        this.pagename = pageName;
     }
     
 }
